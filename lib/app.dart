@@ -4,7 +4,7 @@ import 'package:myapp/features/auth/data/firebase_auth_repo.dart';
 import 'package:myapp/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:myapp/features/auth/presentation/cubits/auth_states.dart';
 import 'package:myapp/features/auth/presentation/pages/auth_page.dart';
-import 'package:myapp/features/post/presentation/pages/home_page.dart';
+import 'package:myapp/features/home/presentation/pages/home_page.dart';
 import 'package:myapp/themes/light_mode.dart';
 
 /*

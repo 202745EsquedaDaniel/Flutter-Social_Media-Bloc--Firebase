@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/features/post/presentation/components/my_drawer_tile.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myapp/features/auth/presentation/cubits/auth_cubit.dart';
+import 'package:myapp/features/home/presentation/components/my_drawer_tile.dart';
+import 'package:myapp/features/profile/domain/presentation/pages/profile_page.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
@@ -10,7 +13,7 @@ class MyDrawer extends StatelessWidget {
       backgroundColor: Theme.of(context).colorScheme.surface,
       child: SafeArea(
         child: Padding(
-          padding: EdgeInsetsDirectional.symmetric(horizontal: 25.0),
+          padding: EdgeInsets.symmetric(horizontal: 25.0),
           child: Column(
             children: [
               // app logo
@@ -37,7 +40,10 @@ class MyDrawer extends StatelessWidget {
                 title: "P R O F I L E ",
                 icon: Icons.person,
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ProfilePage()),
+                  );
                 },
               ),
 
@@ -55,7 +61,10 @@ class MyDrawer extends StatelessWidget {
                 title: "S E T T I N G S",
                 icon: Icons.settings,
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ProfilePage()),
+                  );
                 },
               ),
 
@@ -65,7 +74,7 @@ class MyDrawer extends StatelessWidget {
               MyDrawerTile(
                 title: "L O G O U T",
                 icon: Icons.logout,
-                onTap: () {}, //
+                onTap: () => context.read<AuthCubit>().logout(), //
               ),
 
               SizedBox(height: 25),

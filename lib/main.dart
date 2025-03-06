@@ -1,4 +1,4 @@
-import 'package:firebase_core/firebase_core.dart';
+timport 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/app.dart';
 import 'package:myapp/config/firebase_options.dart';
