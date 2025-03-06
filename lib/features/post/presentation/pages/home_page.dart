@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/features/auth/presentation/cubits/auth_cubit.dart';
+import 'package:myapp/features/post/presentation/components/my_drawer.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -28,6 +29,9 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+
+      //  DRAWER
+      drawer: MyDrawer(),
     );
   }
 }
