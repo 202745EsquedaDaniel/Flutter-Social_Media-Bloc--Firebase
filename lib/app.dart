@@ -7,6 +7,8 @@ import 'package:myapp/features/auth/presentation/pages/auth_page.dart';
 import 'package:myapp/features/home/presentation/pages/home_page.dart';
 import 'package:myapp/features/profile/data/firebase_profile_repo.dart';
 import 'package:myapp/features/profile/domain/presentation/cubits/profile_cubit.dart';
+import 'package:myapp/features/storage/data/firebase_storage_repo.dart';
+import 'package:myapp/features/storage/domain/storage_repo.dart';
 import 'package:myapp/themes/light_mode.dart';
 
 /*
@@ -31,10 +33,13 @@ Check Auth State
 
 class MyApp extends StatelessWidget {
   // auth repo
-  final authRepo = FirebaseAuthRepo();
+  final firebaseAuthRepo = FirebaseAuthRepo();
 
   // profile repo
-  final profileRepo = FirebaseProfileRepo();
+  final firebaseProfileRepo = FirebaseProfileRepo();
+
+  // storage repo
+  final firebaseStorageRepo = FirebaseStorageRepo();
 
   MyApp({super.key});
 
@@ -45,12 +50,17 @@ class MyApp extends StatelessWidget {
       providers: [
         // auth cubit
         BlocProvider<AuthCubit>(
-          create: (context) => AuthCubit(authRepo: authRepo)..checkAuth(),
+          create:
+              (context) => AuthCubit(authRepo: firebaseAuthRepo)..checkAuth(),
         ),
 
         // profile cubit
         BlocProvider<ProfileCubit>(
-          create: (context) => ProfileCubit(profileRepo: profileRepo),
+          create:
+              (context) => ProfileCubit(
+                profileRepo: firebaseProfileRepo,
+                storageRepo: firebaseStorageRepo,
+              ),
         ),
       ],
       child: MaterialApp(
