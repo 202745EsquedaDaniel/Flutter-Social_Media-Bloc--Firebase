@@ -40,9 +40,19 @@ class MyDrawer extends StatelessWidget {
                 title: "P R O F I L E ",
                 icon: Icons.person,
                 onTap: () {
+                  //  pop menu drawer
+                  Navigator.pop(context);
+
+                  // get current user id
+                  final user = context.read<AuthCubit>().currentUser;
+                  String? uid = user!.uid;
+
+                  //  navigate to settings page
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ProfilePage()),
+                    MaterialPageRoute(
+                      builder: (context) => ProfilePage(uid: uid),
+                    ),
                   );
                 },
               ),
@@ -61,10 +71,7 @@ class MyDrawer extends StatelessWidget {
                 title: "S E T T I N G S",
                 icon: Icons.settings,
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ProfilePage()),
-                  );
+                  Navigator.pop(context);
                 },
               ),
 
