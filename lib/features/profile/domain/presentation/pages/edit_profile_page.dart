@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'dart:typed_data';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -120,6 +122,49 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 color: Theme.of(context).colorScheme.secondary,
                 shape: BoxShape.circle,
               ),
+              clipBehavior: Clip.hardEdge,
+              child:
+                  // display selected image for mobile
+                  (!kIsWeb && imagePickedFile != null)
+                      ? Image.file(
+                        File(imagePickedFile!.path!),
+                        fit: BoxFit.cover,
+                      )
+                      :
+                      // display selected image for web
+                      (kIsWeb && webImage != null)
+                      ? Image.memory(webImage!, fit: BoxFit.cover)
+                      :
+                      //  no image selected -> display existing profile picture
+                      CachedNetworkImage(
+                        imageUrl: widget.user.profileImageUrl,
+                        //  loading...
+                        placeholder:
+                            (context, url) => const CircularProgressIndicator(),
+
+                        // error -> failer to load
+                        errorWidget:
+                            (context, url, error) => Icon(
+                              Icons.person,
+                              size: 72,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                        // loaded
+                        imageBuilder:
+                            (coontext, imageProvider) =>
+                                Image(image: imageProvider, fit: BoxFit.cover),
+                      ),
+            ),
+          ),
+
+          const SizedBox(height: 25),
+
+          // pick image button
+          Center(
+            child: MaterialButton(
+              onPressed: pickImage,
+              color: Colors.blue,
+              child: const Text("Pick Image"),
             ),
           ),
 
@@ -132,7 +177,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
             child: MyTextField(
               controller: bioTextController,
-              hintText: widget.user.bio ?? "Add a bio...",
+              hintText: widget.user.bio,
               obscureText: false,
             ),
           ),

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/features/auth/domain/entities/app_user.dart';
@@ -76,21 +77,32 @@ class _ProfilePageState extends State<ProfilePage> {
                 SizedBox(height: 25),
 
                 // profile picture
-                Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.secondary,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  height: 120,
-                  width: 120,
-                  padding: const EdgeInsets.all(12),
-                  child: Center(
-                    child: Icon(
-                      Icons.person,
-                      size: 72,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
+                CachedNetworkImage(
+                  imageUrl: user.profileImageUrl,
+                  //  loading...
+                  placeholder:
+                      (context, url) => const CircularProgressIndicator(),
+
+                  // error -> failer to load
+                  errorWidget:
+                      (context, url, error) => Icon(
+                        Icons.person,
+                        size: 72,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                  // loaded
+                  imageBuilder:
+                      (coontext, imageProvider) => Container(
+                        height: 120,
+                        width: 120,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
                 ),
 
                 SizedBox(height: 25),

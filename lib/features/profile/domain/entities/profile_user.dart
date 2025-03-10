@@ -1,8 +1,8 @@
 import 'package:myapp/features/auth/domain/entities/app_user.dart';
 
 class ProfileUser extends AppUser {
-  final String? bio;
-  final String? profileImageUrl;
+  final String bio;
+  final String profileImageUrl;
 
   ProfileUser({
     required super.uid,
