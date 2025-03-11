@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/features/auth/presentation/components/my_text_field.dart';
 import 'package:myapp/features/profile/domain/entities/profile_user.dart';
-import 'package:myapp/features/profile/domain/presentation/cubits/profile_cubit.dart';
-import 'package:myapp/features/profile/domain/presentation/cubits/profile_states.dart';
+import 'package:myapp/features/profile/presentation/cubits/profile_cubit.dart';
+import 'package:myapp/features/profile/presentation/cubits/profile_states.dart';
 
 class EditProfilePage extends StatefulWidget {
   final ProfileUser user;

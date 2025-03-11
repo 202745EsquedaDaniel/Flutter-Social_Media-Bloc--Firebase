@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/features/auth/domain/entities/app_user.dart';
 import 'package:myapp/features/auth/presentation/cubits/auth_cubit.dart';
-import 'package:myapp/features/profile/domain/presentation/components/bio_box.dart';
-import 'package:myapp/features/profile/domain/presentation/cubits/profile_cubit.dart';
-import 'package:myapp/features/profile/domain/presentation/cubits/profile_states.dart';
-import 'package:myapp/features/profile/domain/presentation/pages/edit_profile_page.dart';
+import 'package:myapp/features/profile/presentation/components/bio_box.dart';
+import 'package:myapp/features/profile/presentation/cubits/profile_cubit.dart';
+import 'package:myapp/features/profile/presentation/cubits/profile_states.dart';
+import 'package:myapp/features/profile/presentation/pages/edit_profile_page.dart';
 
 class ProfilePage extends StatefulWidget {
   final String uid;
