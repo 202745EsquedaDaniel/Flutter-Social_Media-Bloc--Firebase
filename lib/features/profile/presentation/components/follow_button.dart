@@ -13,10 +13,37 @@ import 'package:flutter/material.dart';
 
 class FollowButton extends StatelessWidget {
   final void Function()? onPressed;
-  const FollowButton({super.key, this.onPressed});
+  final bool isFollowing;
+
+  const FollowButton({super.key, this.onPressed, required this.isFollowing});
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Padding(
+      // padding on outside
+      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+
+      // button
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: MaterialButton(
+          onPressed: onPressed,
+
+          // pading inside
+          padding: const EdgeInsets.all(25),
+
+          color:
+              isFollowing ? Theme.of(context).colorScheme.primary : Colors.blue,
+
+          child: Text(
+            isFollowing ? "Unfollow" : "Follow",
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.secondary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
