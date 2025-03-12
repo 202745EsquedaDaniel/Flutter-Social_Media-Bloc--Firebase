@@ -6,10 +6,12 @@ import 'package:myapp/features/auth/presentation/components/my_text_field.dart';
 import 'package:myapp/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:myapp/features/post/domain/entities/comments.dart';
 import 'package:myapp/features/post/domain/entities/post.dart';
+import 'package:myapp/features/post/presentation/components/comment_tile.dart';
 import 'package:myapp/features/post/presentation/cubits/post_cubit.dart';
 import 'package:myapp/features/post/presentation/cubits/post_states.dart';
 import 'package:myapp/features/profile/domain/entities/profile_user.dart';
 import 'package:myapp/features/profile/presentation/cubits/profile_cubit.dart';
+import 'package:myapp/features/profile/presentation/pages/profile_page.dart';
 
 class PostTile extends StatefulWidget {
   final Post post;
@@ -138,8 +140,8 @@ class _PostTileState extends State<PostTile> {
     final newComment = Comment(
       id: DateTime.now().microsecondsSinceEpoch.toString(),
       postId: widget.post.id,
-      userId: widget.post.userId,
-      userName: widget.post.userName,
+      userId: currentUser!.uid,
+      userName: currentUser!.name,
       text: commentTextController.text,
       timestamp: DateTime.now(),
     );
@@ -191,54 +193,63 @@ class _PostTileState extends State<PostTile> {
       child: Column(
         children: [
           // Top section: profile pic / name / delete button
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                //  profile pic
-                postUser?.profileImageUrl != null
-                    ? CachedNetworkImage(
-                      imageUrl: postUser!.profileImageUrl,
-                      errorWidget:
-                          (context, url, error) => const Icon(Icons.person),
-                      imageBuilder:
-                          (context, imageProvider) => Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: imageProvider,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                    )
-                    : const Icon(Icons.person),
-
-                const SizedBox(width: 10),
-
-                // name
-                Text(
-                  widget.post.userName,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.inversePrimary,
+          GestureDetector(
+            onTap:
+                () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProfilePage(uid: widget.post.userId),
                   ),
                 ),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  //  profile pic
+                  postUser?.profileImageUrl != null
+                      ? CachedNetworkImage(
+                        imageUrl: postUser!.profileImageUrl,
+                        errorWidget:
+                            (context, url, error) => const Icon(Icons.person),
+                        imageBuilder:
+                            (context, imageProvider) => Container(
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                      )
+                      : const Icon(Icons.person),
 
-                const Spacer(),
+                  const SizedBox(width: 10),
 
-                // delete button
-                if (isOwnPost)
-                  GestureDetector(
-                    onTap: showOptions,
-                    child: Icon(
-                      Icons.delete,
-                      color: Theme.of(context).colorScheme.primary,
+                  // name
+                  Text(
+                    widget.post.userName,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.inversePrimary,
                     ),
                   ),
-              ],
+
+                  const Spacer(),
+
+                  // delete button
+                  if (isOwnPost)
+                    GestureDetector(
+                      onTap: showOptions,
+                      child: Icon(
+                        Icons.delete,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
 
@@ -357,15 +368,7 @@ class _PostTileState extends State<PostTile> {
                       final comment = post.comments[index];
 
                       // comment title UI
-                      return Row(
-                        children: [
-                          //name
-                          Text(comment.userName),
-
-                          //  comment text
-                          Text(comment.text),
-                        ],
-                      );
+                      return CommentTile(comment: comment);
                     },
                   );
                 }
@@ -377,13 +380,9 @@ class _PostTileState extends State<PostTile> {
               }
               // ERROR
               else if (state is PostsError) {
-                return Center(child: CircularProgressIndicator());
-              }
-              // ERROR
-              else if (state is PostsError) {
                 return Center(child: Text(state.message));
               } else {
-                return const Center(child: Text("Something went wrong..."));
+                return const SizedBox();
               }
             },
           ),
