@@ -350,8 +350,10 @@ class _PostTileState extends State<PostTile> {
                   //  comment section
                   return ListView.builder(
                     itemCount: showCommentCount,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
-                      // get individual comment 
+                      // get individual comment
                       final comment = post.comments[index];
 
                       // comment title UI
@@ -365,8 +367,23 @@ class _PostTileState extends State<PostTile> {
                         ],
                       );
                     },
-                  )
+                  );
                 }
+              }
+
+              // LOADING...
+              if (state is PostsLoading) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              // ERROR
+              else if (state is PostsError) {
+                return Center(child: CircularProgressIndicator());
+              }
+              // ERROR
+              else if (state is PostsError) {
+                return Center(child: Text(state.message));
+              } else {
+                return const Center(child: Text("Something went wrong..."));
               }
             },
           ),
