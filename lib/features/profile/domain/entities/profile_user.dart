@@ -7,13 +7,13 @@ class ProfileUser extends AppUser {
   final List<String> following;
 
   ProfileUser({
-    required this.followers,
-    required this.following,
     required super.uid,
     required super.email,
     required super.name,
     required this.bio,
     required this.profileImageUrl,
+    required this.followers,
+    required this.following,
   });
 
   //  method to update user profile
@@ -56,7 +56,7 @@ class ProfileUser extends AppUser {
       bio: json['bio'] ?? '',
       profileImageUrl: json['profileImageUrl'] ?? '',
       followers: List<String>.from(json['followers'] ?? []),
-      following: List<String>.from(json['following']) ?? [],
+      following: List<String>.from(json['following'] ?? []),
     );
   }
 }
